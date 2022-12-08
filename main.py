@@ -13,9 +13,12 @@ print("country is", country, "year is", year)
 with open(file_with_data, 'r') as file:
     line = file.readline()
     while line != "":
+        line_splitted = line.split("\t")
+        if country == line_splitted[7]:
+            print(line_splitted)
+
         line = file.readline()
-        line_splitted = line.split()
-        print(line_splitted)
+
 
 #     current_country = [6]
 # print(current_country)
