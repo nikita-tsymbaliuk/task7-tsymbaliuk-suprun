@@ -4,8 +4,9 @@ file_with_data = sys.argv[1]
 print(sys.argv[1:])
 
 country = sys.argv[3]
-year = sys.argv[]
-print("country is", country)
+year = sys.argv[4]
+medals = sys.argv[2]
+print("country is", country, "year is", year, "medals are", medals)
 
 
 
