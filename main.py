@@ -1,4 +1,7 @@
-print("Nikita the best")
-print("And how about me?")
 import sys
-sys.argv
+
+print(len(sys.argv[1:]))
+
+country = sys.argv[3]
+print(country)
+
