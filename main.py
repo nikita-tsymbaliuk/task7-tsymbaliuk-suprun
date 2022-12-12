@@ -11,7 +11,7 @@ def leaders(filename, country, year):
                 is_first_line = False
                 continue
 
-            if country == data[head.index("country-data")] and year == data[head.index("year")]:
+            if country == data[head.index("country-data")] and year == data[head.index("years")]:
                 pass
 
 def main():
@@ -74,7 +74,7 @@ mode = sys.argv[2]
 #     current_country = [6]
 # print(current_country)
 
-# print(f'{counter +1}. {name_athlete} - {sport_athlete} - {medal-line}')
+# print(f'{counter +1}. {name_athlete} - {sport_athlete} - {medal-line}').
 
 if __name__ == "__main__":
     main()
