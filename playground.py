@@ -21,7 +21,7 @@ def task1(filename, country, year):
                 pass
 
 
-def medals(filename, country, year):
+def medals(filename, country, year, out_file):
     gold_counter = 0
     silver_counter = 0
     bronze_counter = 0
@@ -46,44 +46,55 @@ def medals(filename, country, year):
         participant = Participant(*line.strip().split("\t"))
         if (participant.team == country or participant.noc == country) and participant.year == year and participant.medal != "NA":
             participant_list.append(participant)
-    print([(x.name, x.medal) for x in participant_list])
+            # for i, y in enumerate(participant_list[:10], 1):
+
+    if out_file:
+        ff = open(out_file, 'a')
+    for x in participant_list[:10]:
+        print(x.name, x.sport, x.medal)
+        if out_file:
+            ff.write(f'{x.name}, {x.sport}, {x.medal}\n')
+    if out_file:
+        ff.close()
 
 
-def data(filename, output):
-    counter = 0
-    type_of_medals = []
-    names = []
 
-    with open(filename, "r") as file:
-        file.readline()
-        lines = file.readlines()
-    for line in lines:
-        line = line.split("\t")
-        type_of_medal = line[14]
-        name = line[1]
-        sport = line[-3]
-        year = line[9]
-        country = line[7]
-
-        if country in line and year in line:
-            if counter < 10:
-                if name not in names and type_of_medal != "NA":
-                    if output is not None:
-                        with open(filename_out, "a") as output_file:
-                            output_file.write(f'{counter + 1}, {name}, {sport}, {type_of_medal}\n')
-                    print(f'{counter + 1}, {name}, {sport}, {type_of_medal}')
-                    counter += 1
-                    names.append(name)
-            type_of_medals.append(type_of_medal)
-        lines = file.readlines()
-    if len(names) == 0:
-        print("There is no such a country")
-        quit()
-    if counter < 10:
-        print(f'in {year} {country} and there were {counter} medalists')
-    medals(year)
-
-
+# def data(filename, output):
+#     counter = 0
+#     type_of_medals = []
+#     names = []
+#
+#     with open(filename, "r") as file:
+#         file.readline()
+#         lines = file.readlines()
+#     for line in lines:
+#         line = line.split("\t")
+#         type_of_medal = line[14]
+#         name = line[1]
+#         sport = line[-3]
+#         year = line[9]
+#         country = line[7]
+#
+#         if country in line and year in line:
+#             if counter < 10:
+#                 if name not in names and type_of_medal != "NA":
+#                     # if output is not None:
+#                     #     with open(filename_out, "a") as output_file:
+#                     #         output_file.write(f'{counter + 1}, {name}, {sport}, {type_of_medal}\n')
+#                     counter += 1
+#                     print(f'{counter}, {name}, {sport}, {type_of_medal}')
+#
+#                     names.append(name)
+#             type_of_medals.append(type_of_medal)
+#         lines = file.readlines()
+#     if len(names) == 0:
+#         print("There is no such a country")
+#         quit()
+#     if counter < 10:
+#         print(f'in {year} {country} and there were {counter} medalists')
+#     medals(year)
+#
+# data(filename, "out")
 
 
 
@@ -101,10 +112,14 @@ def main():
     data_file = sys.argv[1]
     country = sys.argv[3]
     year = sys.argv[4]
+    if len(sys.argv) > 5:
+        out_file = sys.argv[6]
+    else:
+        out_file = None
 
     # year = int(country_and_year_list[1])
     # output = country_and_year_list[6]
-    medals(filename, country, year)
+    medals(filename, country, year, out_file)
 
     # data(filename, "out.txt")
 
