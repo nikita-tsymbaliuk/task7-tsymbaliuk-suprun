@@ -1,5 +1,10 @@
 import argparse
+import sys
+
 from classes import Participant
+
+filename = "data_file.tsv"
+
 
 def task1(filename, country, year):
     head = None
@@ -21,7 +26,7 @@ def medals(filename, country, year):
     silver_counter = 0
     bronze_counter = 0
     with open(filename, "r") as file:
-        line = file.readline()
+        file.readline()
         lines = file.readlines()
         for line in lines:
             line = line.split("\t")
@@ -37,13 +42,50 @@ def medals(filename, country, year):
 
         participant_list = []
         with open(filename, "r") as file:
-            line = file.readline()
+            file.readline()
             lines = file.readlines()
             for line in lines:
                 participant = Participant(*line.strip().split("\t"))
                 if (participant.team == country or participant.noc == country) and participant.year == year and participant.medal != "NA":
                     participant_list.append(participant)
+                    print(participant_list)
 
+
+def data(filename, output1):
+    counter = 0
+    type_of_medals = []
+    names = []
+
+    with open(filename, "r") as file:
+        file.readline()
+        lines = file.readlines()
+        while lines:
+            line = line.split("\t")
+            type_of_medal = line[9]
+            name = line[1]
+            sport = line[-3]
+            year = line[7]
+            country = line[9]
+
+            if country in line and year in line:
+                if counter < 10:
+                    if name not in names and type_of_medal != "NA":
+                        if output1 is not None:
+                            with open(filename, "a") as output_file:
+                                output_file.write(f'{counter + 1}, {name}, {sport}, {type_of_medal}\n')
+                        print(f'{counter + 1}, {name}, {sport}, {type_of_medal}')
+                        counter += 1
+                        names.append(name)
+                type_of_medals.append(type_of_medal)
+            lines = file.readlines()
+        if len(names) == 0:
+            print("There is no such a country")
+            quit()
+        if counter < 10:
+            print(f'in {year} {country} and there were {counter} medalists')
+    medals(year)
+
+    data(filename, output1)
 
 
 
@@ -60,8 +102,6 @@ def main():
     country = country_and_year_list[0]
     year = int(country_and_year_list[1])
     medals(filename, country, year)
-
-
 
 
 
